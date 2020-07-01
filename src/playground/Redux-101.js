@@ -32,7 +32,9 @@ const resetCount = () => (
     }
 )
 
-const store = createStore((state = { count : 0 }, action ) => {     //default state and its value count : 0 specified within.
+
+//reducers
+const countReducer = (state = { count : 0 }, action ) => {     //default state and its value count : 0 specified within.
 
     switch (action.type){
         case 'INCREMENT' : 
@@ -54,7 +56,9 @@ const store = createStore((state = { count : 0 }, action ) => {     //default st
         default: return state;
     }
     
-});
+}
+
+const store = createStore(countReducer);
 
 const unsubscribe = store.subscribe(() => {     //return value of subscribe() is called to unsubscribe from the subscriptions.
     console.log(store.getState());
