@@ -1,18 +1,47 @@
 import { createStore } from 'redux';
 
+//Action generator for type 'INCREMENT'
+const incrementCount = ( {incrementBy = 1} = {} ) => (        //default value 1. If no object is provided when incrementCount is called, then default is provided here i.e. empty object {}
+    {           //action object being returned by action generator.
+        type: 'INCREMENT',
+        // incrementBy: incrementBy ,
+        incrementBy,
+    }
+);
+
+//Action generator for type 'DECREMENT'
+const decrementCount = ( { decrementBy = 1 } = {} ) => (
+    {
+        type: 'DECREMENT',
+        decrementBy
+    }
+);
+
+//for type 'SET'
+const setCount = ( { count } ) => (
+    {
+        type: 'SET',
+        count,
+    }
+)
+
+//for 'RESET'
+const resetCount = () => (
+    {
+        type: 'RESET'
+    }
+)
+
 const store = createStore((state = { count : 0 }, action ) => {     //default state and its value count : 0 specified within.
-//the 2nd argument action contains the dispatched object from the store to modify the state values accordingly.
+
     switch (action.type){
         case 'INCREMENT' : 
-            const incrementBy = typeof action.incrementBy === 'number' ? action.incrementBy : 1;
-
             return {        //this is the state object with credentials to be modified.
-                count: state.count + incrementBy
+                count: state.count + action.incrementBy
             };
         case 'DECREMENT' :
-            const decrementBy = typeof action.decrementBy === 'number' ? action.decrementBy : 1;
             return{
-                count: state.count - decrementBy
+                count: state.count - action.decrementBy
             }
         case 'SET':
             return{
@@ -31,30 +60,15 @@ const unsubscribe = store.subscribe(() => {     //return value of subscribe() is
     console.log(store.getState());
 })
 
-store.dispatch({        //goes to the store to compute new values of states.
-    type: 'INCREMENT',
-    incrementBy: 5
-});
+store.dispatch(incrementCount( {incrementBy: 5} ));     //incrementBy passed to payload in incrementCount.
 
-store.dispatch({        //goes to the store to compute new values of states.
-    type: 'INCREMENT',
-});
-// unsubscribe();
+store.dispatch(incrementCount());
+// unsubscribe();           //will not log out further state changes.
 
-store.dispatch({
-    type: 'DECREMENT',
-    decrementBy: 3
-});
+store.dispatch(decrementCount( { decrementBy: 3 } ));
 
-store.dispatch({
-    type: 'DECREMENT',
-})
+store.dispatch(decrementCount());
 
-store.dispatch({
-    type: 'RESET',
-})
+store.dispatch(resetCount());
 
-store.dispatch({
-    type: 'SET',
-    count: 101
-})
+store.dispatch(setCount( { count: 101} ));
