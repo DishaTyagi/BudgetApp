@@ -1,3 +1,5 @@
+// *************OBJECT DESTRUCTURING****************** 
+
 // const person = {
 //     name: 'Disha',
 //     age: 21,
@@ -24,3 +26,18 @@ const book = {
 
 const {name : publisherName = 'Self-published'} = book.publisher;       //publisherName is renaming, self-published is the default value in case no publisher name is mentioned.
 console.log(publisherName);
+
+
+
+// ********************ARRAY DESTRUCTURING*************************
+
+const address = ['Express greens', 'Vaishali', 'Ghaziabad', '201010'];
+
+const [ , city , state = 'default value' ] = address;         //these 4 variables are matching with the array items in order.
+console.log(`You are in ${city} ${state}`);
+
+
+const item = ['Coffee', '₹10', '₹20', '₹30'];
+
+const [thing, , mediumPrice ] = item;
+console.log(`A medium ${thing} costs ${mediumPrice}`);
