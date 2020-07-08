@@ -4,7 +4,7 @@ import uuid from 'uuid';        //if more than 1 import from same package, use n
 //Action Generators.
 //ADD_EXPENSE
 const addExpense = ( { description = '', note = '', amount = 0, createdAt = 0 } = {} ) => (
-    {
+    {       //action object
         type: 'ADD_EXPENSE',
         expense: {
             id: uuid(),
@@ -41,8 +41,7 @@ const expensesReducer = ( state = expensesReducerDefaultState , action) => {
         case 'ADD_EXPENSE' :            
             return [...state, action.expense];       //spread operator(returns a new array)
         case 'REMOVE_EXPENSE' :
-            // return state.filter(state => state.id !== action.id)
-            return state.filter( ( {id} ) => id !== action.id)
+            return state.filter( ( {id} ) => id !== action.id)      //{id} of the individual state in filter across the state array of objects.
         default: 
             return state;
     }
@@ -78,7 +77,7 @@ store.subscribe(() => {
 const expenseOne = store.dispatch(addExpense( { description : 'rent', amount : 100 } ));
 const expenseTwo = store.dispatch(addExpense( { description : 'coffee', amount : 200 } ));
 
-store.dispatch( removeExpense( { id: expenseOne.expense.id } ) )  ;
+store.dispatch( removeExpense( { id: expenseOne.expense.id } ) ); 
 
 const demoState = {
     expenses: [{    //array of objects
