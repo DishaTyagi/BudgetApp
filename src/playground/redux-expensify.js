@@ -25,8 +25,15 @@ const removeExpense = ( { id } = {} ) => (
     }
 )
 
-
 //EDIT_EXPENSE
+const editExpense = (id , updates) => (
+    {
+        type: 'EDIT_EXPENSE',
+        id,
+        updates
+    }
+)
+
 //SET_TEXT_FILTER
 //SORT_BY_DATE
 //SORT_BY_AMOUNT
@@ -42,6 +49,18 @@ const expensesReducer = ( state = expensesReducerDefaultState , action) => {
             return [...state, action.expense];       //spread operator(returns a new array)
         case 'REMOVE_EXPENSE' :
             return state.filter( ( {id} ) => id !== action.id)      //{id} of the individual state in filter across the state array of objects.
+        case 'EDIT_EXPENSE':
+            return state.map( (expense) => {
+                if(expense.id === action.id){
+                    return {
+                        ...expense,
+                        ...action.updates      //action.updates is also an object so hgrab it and override the values of expense with action.updates
+                    }
+                }
+                else{
+                    return expense;
+                }
+            } )
         default: 
             return state;
     }
@@ -78,6 +97,7 @@ const expenseOne = store.dispatch(addExpense( { description : 'rent', amount : 1
 const expenseTwo = store.dispatch(addExpense( { description : 'coffee', amount : 200 } ));
 
 store.dispatch( removeExpense( { id: expenseOne.expense.id } ) ); 
+store.dispatch( editExpense( expenseTwo.expense.id , { amount: 500, note: 'expensive one huh' } ));     //1st arg is the id of the expense to be updated and second is the object that contains info about what has to be updated.
 
 const demoState = {
     expenses: [{    //array of objects
