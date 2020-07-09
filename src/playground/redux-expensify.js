@@ -18,7 +18,7 @@ const addExpense = ( { description = '', note = '', amount = 0, createdAt = 0 } 
 )
 
 //REMOVE_EXPENSE
-const removeExpense = ( { id } = {} ) => (
+const removeExpense = ( id = '' ) => (
     {
         type: 'REMOVE_EXPENSE',
         id
@@ -35,10 +35,42 @@ const editExpense = (id , updates) => (
 )
 
 //SET_TEXT_FILTER
+const setTextFilter = ( text = '' ) => (
+    {
+        type: 'SET_TEXT',
+        text
+    }
+)
+
 //SORT_BY_DATE
+const sortByDate = () => (
+    {
+        type: 'SORT_BY_DATE'
+    }
+);
+
 //SORT_BY_AMOUNT
+const sortByAmount = () => (
+    {
+        type: 'SORT_BY_AMOUNT'
+    }
+);
+
 //SET_START_DATE
+const setStartDate = ( startDate ) => (
+    {
+        type:'SET_START_DATE',
+        startDate
+    }
+)
+
 //SET_END_DATE
+const setEndDate = ( endDate ) => (
+    {
+        type: 'SET_END_DATE',
+        endDate
+    }
+)
 
 //2 reducers. 1 -> expenses array of objects and 2 -> filters.
 //Expenses reducer
@@ -75,13 +107,50 @@ const filterReducerDefaultState = {
 }
 const filterReducer = (state = filterReducerDefaultState, action) => {
     switch (action.type){
+        case 'SET_TEXT':
+            return {
+                ...state,
+                text: action.text
+            }
+        case 'SORT_BY_DATE':
+            return {
+                ...state,
+                sortBy: 'date',
+            }
+        case 'SORT_BY_AMOUNT' :
+            return {
+                ...state,
+                sortBy: 'amount'
+            }
+        case 'SET_START_DATE':
+            return {
+                ...state,
+                startDate: action.startDate
+            }
+        case 'SET_END_DATE':
+            return {
+                ...state,
+                endDate: action.endDate
+            }
         default:
             return state;
     }
 }
 
-//store
+//show expenses based on the filters
+const getVisibleExpenses = ( expenses, {text, sortBy, startDate, endDate} ) => {
 
+    return expenses.filter( (expense) => {      //filter is the array function here.
+        const textMatch = expense.description.toLowerCase().includes(text.toLowerCase()) ;              //textMatch is to check if the description of expense has the word that contains the text passed by the user.
+        const startDateMatch = typeof startDate !== 'number' || expense.createdAt >= startDate ;
+        const endDateMatch = typeof endDate !== 'number' || expense.createdAt <= endDate ;
+
+        return textMatch && startDateMatch && endDateMatch;     //if both are true, then the expense is included in the new array.
+    });
+    
+}
+
+//store
 const store = createStore(
     combineReducers({       //takes obj as an argument 
         expenses: expensesReducer,
@@ -90,14 +159,28 @@ const store = createStore(
 );
 
 store.subscribe(() => {
-    console.log(store.getState());
+    const state = store.getState();
+    const visibleExpenses = getVisibleExpenses(state.expenses, state.filters)
+    console.log(visibleExpenses);
 })
 
-const expenseOne = store.dispatch(addExpense( { description : 'rent', amount : 100 } ));
-const expenseTwo = store.dispatch(addExpense( { description : 'coffee', amount : 200 } ));
+const expenseOne = store.dispatch(addExpense( { description : 'rent', amount : 100, createdAt: 1000 } ));
+const expenseTwo = store.dispatch(addExpense( { description : 'coffee', amount : 200, createdAt: -1000 } ));
 
-store.dispatch( removeExpense( { id: expenseOne.expense.id } ) ); 
-store.dispatch( editExpense( expenseTwo.expense.id , { amount: 500, note: 'expensive one huh' } ));     //1st arg is the id of the expense to be updated and second is the object that contains info about what has to be updated.
+// store.dispatch( removeExpense( expenseOne.expense.id ) ); 
+// store.dispatch( editExpense( expenseTwo.expense.id , { amount: 500, note: 'expensive one huh' } ));     //1st arg is the id of the expense to be updated and second is the object that contains info about what has to be updated.
+
+store.dispatch(setTextFilter('ren'));
+// store.dispatch(setTextFilter())
+
+// store.dispatch(sortByAmount());
+// store.dispatch(sortByDate());
+// store.dispatch(sortByAmount())
+
+// store.dispatch(setStartDate(1500));
+// store.dispatch(setStartDate());
+// store.dispatch(setEndDate(2000));
+// store.dispatch(setEndDate());
 
 const demoState = {
     expenses: [{    //array of objects
