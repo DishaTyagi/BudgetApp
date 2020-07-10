@@ -146,7 +146,14 @@ const getVisibleExpenses = ( expenses, {text, sortBy, startDate, endDate} ) => {
         const endDateMatch = typeof endDate !== 'number' || expense.createdAt <= endDate ;
 
         return textMatch && startDateMatch && endDateMatch;     //if both are true, then the expense is included in the new array.
-    });
+    }).sort( ( a, b ) => {            //sort is chained coz expenses have to be sorted based on date or amount.
+        if(sortBy === 'date'){
+            return a.createdAt < b.createdAt ? 1 : -1 ;     //if b expense has to be on the top, toss 1, else -1.
+        }
+        else if(sortBy === 'amount'){
+            return a.amount < b.amount ? 1 : -1 ;
+        }
+    }) ;
     
 }
 
@@ -164,16 +171,16 @@ store.subscribe(() => {
     console.log(visibleExpenses);
 })
 
-const expenseOne = store.dispatch(addExpense( { description : 'rent', amount : 100, createdAt: 1000 } ));
+const expenseOne = store.dispatch(addExpense( { description : 'rent', amount : 300, createdAt: -11000 } ));
 const expenseTwo = store.dispatch(addExpense( { description : 'coffee', amount : 200, createdAt: -1000 } ));
 
 // store.dispatch( removeExpense( expenseOne.expense.id ) ); 
 // store.dispatch( editExpense( expenseTwo.expense.id , { amount: 500, note: 'expensive one huh' } ));     //1st arg is the id of the expense to be updated and second is the object that contains info about what has to be updated.
 
-store.dispatch(setTextFilter('ren'));
+// store.dispatch(setTextFilter('ren'));
 // store.dispatch(setTextFilter())
 
-// store.dispatch(sortByAmount());
+store.dispatch(sortByAmount());
 // store.dispatch(sortByDate());
 // store.dispatch(sortByAmount())
 
