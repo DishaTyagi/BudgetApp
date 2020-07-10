@@ -1,7 +1,7 @@
 import { createStore, combineReducers} from 'redux';
 import uuid from 'uuid';        //if more than 1 import from same package, use named export rather than default.
 
-//Action Generators.
+//Action Generators for expenses.
 //ADD_EXPENSE
 const addExpense = ( { description = '', note = '', amount = 0, createdAt = 0 } = {} ) => (
     {       //action object
@@ -171,8 +171,9 @@ store.subscribe(() => {
     console.log(visibleExpenses);
 })
 
-const expenseOne = store.dispatch(addExpense( { description : 'rent', amount : 300, createdAt: -11000 } ));
-const expenseTwo = store.dispatch(addExpense( { description : 'coffee', amount : 200, createdAt: -1000 } ));
+const expenseOne = store.dispatch(addExpense( { description : 'rent', amount : 300, createdAt: 100 } ));
+const expenseTwo = store.dispatch(addExpense( { description : 'coffee', amount : 200, createdAt: 200 } ));
+store.dispatch( addExpense( { description : 'tomato', amount : 100, createdAt: 300 } ) )
 
 // store.dispatch( removeExpense( expenseOne.expense.id ) ); 
 // store.dispatch( editExpense( expenseTwo.expense.id , { amount: 500, note: 'expensive one huh' } ));     //1st arg is the id of the expense to be updated and second is the object that contains info about what has to be updated.
@@ -180,9 +181,9 @@ const expenseTwo = store.dispatch(addExpense( { description : 'coffee', amount :
 // store.dispatch(setTextFilter('ren'));
 // store.dispatch(setTextFilter())
 
-store.dispatch(sortByAmount());
-// store.dispatch(sortByDate());
-// store.dispatch(sortByAmount())
+// store.dispatch(sortByAmount());
+// store.dispatch(sortByDate());        //recent on the top
+store.dispatch(sortByAmount());         //highest on the top
 
 // store.dispatch(setStartDate(1500));
 // store.dispatch(setStartDate());
