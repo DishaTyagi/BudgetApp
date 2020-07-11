@@ -15,12 +15,22 @@ const withAdminWarning = (WrappedComponent) => {        //wrappedComponent conta
     //what we are gonna return here is the HOC.
     return (props) => (      //stateless functional component.
         <div>
-            <p>This is private info. Please don't share</p>
+            { props.isAdmin && <p>This is private info. Please don't share</p> }
             <WrappedComponent {...props}/>
         </div>
     )
 }
 
-const AdminInfo =  withAdminWarning(Info)      //args. include the components to be rendered. Hence this is HOC.
+const requireAuthentication = (WrappedComponent) => {
+    return (props)=> (       //return HOC.
+        <div>
+            { props.isAuthenticated ? <WrappedComponent {...props}/> : <p>Please login to view the information</p> }            
+        </div>
+    )
+}
 
-ReactDOM.render(<AdminInfo name = "My name is Disha Tyagi." age="My age is 21." />, document.getElementById('appDiv'));
+const AdminInfo =  withAdminWarning(Info)      //args. include the components to be rendered. Hence this is HOC.
+const AuthInfo = requireAuthentication(Info)
+
+// ReactDOM.render(<AdminInfo isAdmin={true} name="My name is Disha Tyagi." age="My age is 21." />, document.getElementById('appDiv'));
+ReactDOM.render(<AuthInfo isAuthenticated={true} name="My name is Disha Tyagi." age="My age is 21." />, document.getElementById('appDiv'));
