@@ -22,7 +22,7 @@ store.dispatch(addExpense( { description: 'Water bill', createdAt: 100 } ));
 store.dispatch(addExpense( { description : 'Gas bill', createdAt: 250 } ));
 store.dispatch(addExpense( { description : 'Electricity bill', createdAt: 5000 } ));
 store.dispatch(sortByDate());
-store.dispatch(setTextFilter('gas'));
+store.dispatch(setTextFilter('bill'));
 
 setTimeout( () => {
     store.dispatch(setTextFilter('water'));
