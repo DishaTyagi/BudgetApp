@@ -9,7 +9,7 @@ const AddExpensePage = (props) => (
         <ExpenseForm 
             onSubmit = {(expense) => {
                 props.dispatch(addExpense(expense));
-                props.history.push('/');        //redirects to / i.e. home page.
+                props.history.push('/');        //redirects to the home page.
             }}
         />
     </div>

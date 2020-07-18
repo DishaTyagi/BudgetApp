@@ -7,14 +7,19 @@ const now = moment();
 console.log(now.format('MMM Do, YYYY'));
 
 export default class ExpenseForm extends React.Component {
-    state = {
-        description : '',
-        note: '',
-        amount: '',
-        createdAt: moment(),
-        calendarFocused: false,
-        error: '',
+    constructor(props){
+        super(props);
+
+        this.state = {
+            description : props.expense ? props.expense.description : '',
+            note: props.expense ? props.expense.note : '',
+            amount: props.expense ? props.expense.amount.toString() : '',       //toString coz amount was convered to float. But here we want to store it as text.
+            createdAt: props.expense ? moment(props.expense.createdAt) : moment(),
+            calendarFocused: false,
+            error: '',
+        }
     }
+    
     onDescriptionChange = (e) => {
         const description = e.target.value;
         this.setState( () => (
@@ -61,7 +66,7 @@ export default class ExpenseForm extends React.Component {
             this.setState( () => ({
                 error: ''
             }));
-            this.props.onSubmit({
+            this.props.onSubmit({       //onSubmit is the prop to ExpenseForm(can be seen is addExpense and editExpense)
                 description: this.state.description,
                 amount: parseFloat(this.state.amount , 10),      //converting text amount to float(base 10)
                 createdAt: this.state.createdAt.valueOf(),       //created is a moment obj. Here we converted it to time stamp.
