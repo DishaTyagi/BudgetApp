@@ -13,7 +13,7 @@ export default class ExpenseForm extends React.Component {
         amount: '',
         createdAt: moment(),
         calendarFocused: false,
-        
+        error: '',
     }
     onDescriptionChange = (e) => {
         const description = e.target.value;
@@ -31,28 +31,50 @@ export default class ExpenseForm extends React.Component {
     }
     onAmountChange = (e) => {
         const amount = e.target.value;
-        if(amount.match(/^\d*(\.\d{0,2})?$/)){      //string match method to match regex with a string.
+        if( !amount || amount.match(/^\d{1,}(\.\d{0,2})?$/)){      //string match method to match regex with a string.
             this.setState( { amount } );
         }
     }
     onDateChange = (createdAt) => {
-        this.setState(() => (
-            {
-                createdAt
-            }
-        ))
+        if(createdAt){      //if created is empty i.e the user simply deletes the date, don't change the state then.
+            this.setState(() => (
+                {
+                    createdAt
+                }
+            ))    
+        }
     }
     onFocusChange = ({focused}) => {
-        this.setState(
+        this.setState(() => (
             {
                 calendarFocused: focused,
             }
-        )
+        ))
+    }
+    onSubmit = (e) => {     
+        e.preventDefault();     //prevents from full page refreshing.
+        if(!this.state.description || !this.state.amount){
+            this.setState(() => ({
+                error: 'Please provide description and amount'
+            }))
+        }else{
+            this.setState( () => ({
+                error: ''
+            }));
+            this.props.onSubmit({
+                description: this.state.description,
+                amount: parseFloat(this.state.amount , 10),      //converting text amount to float(base 10)
+                createdAt: this.state.createdAt.valueOf(),       //created is a moment obj. Here we converted it to time stamp.
+                note: this.state.note
+            })
+        }
     }
     render(){
         return (
             <div>
-                <form>
+                {this.state.error && <h3>{this.state.error}</h3>}
+
+                <form onSubmit={this.onSubmit} >
                     <label>Description</label>
                     <input type = "text" 
                         value={this.state.description} 
