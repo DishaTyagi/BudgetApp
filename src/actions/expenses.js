@@ -1,6 +1,5 @@
 import uuid from 'uuid';
 
-
 //Action Generators for expenses.
 //ADD_EXPENSE
 export const addExpense = ( { description = '', note = '', amount = 0, createdAt = 0 } = {} ) => (      //toss export at the beginning for named exports.
@@ -18,7 +17,7 @@ export const addExpense = ( { description = '', note = '', amount = 0, createdAt
 )
 
 //REMOVE_EXPENSE
-export const removeExpense = ( id = '' ) => (
+export const removeExpense = ( {id} = {} ) => (     //take id as obj prop only rather than passing it simply.
     {
         type: 'REMOVE_EXPENSE',
         id
@@ -26,7 +25,7 @@ export const removeExpense = ( id = '' ) => (
 )
 
 //EDIT_EXPENSE
-export const editExpense = (id , updates) => (
+export const editExpense = (id , updates) => (        //take it as an object or it will be problematic during jest testing
     {
         type: 'EDIT_EXPENSE',
         id,
