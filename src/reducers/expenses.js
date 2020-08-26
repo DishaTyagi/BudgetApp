@@ -11,7 +11,7 @@ export default ( state = expensesReducerDefaultState , action) => {
                 if(expense.id === action.id){
                     return {
                         ...expense,
-                        ...action.updates      //action.updates is also an object so hgrab it and override the values of expense with action.updates
+                        ...action.updates      //action.updates is also an object so grab it and override the values of expense with action.updates
                     }
                 }
                 else{
