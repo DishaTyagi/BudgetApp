@@ -12,20 +12,15 @@ import './styles/styles.scss'
 
 const store = configureStore();     //here, configureStore is called. It returns store which is indeed stored in a varible.
 
-store.subscribe(() => {
-    const state = store.getState();
-    const visibleExpenses = getVisibleExpenses(state.expenses, state.filters)
-    console.log(visibleExpenses);
-})
+// store.subscribe(() => {
+//     const state = store.getState();
+//     const visibleExpenses = getVisibleExpenses(state.expenses, state.filters)
+//     console.log(visibleExpenses);
+// })
 
 store.dispatch(addExpense( { description: 'Water bill', amount: 1000 , createdAt: 100 } ));
 store.dispatch(addExpense( { description : 'Gas bill',amount: 6000 , createdAt: 250 } ));
 store.dispatch(addExpense( { description : 'Electricity bill',amount: 2000 , createdAt: 5000 } ));
-// store.dispatch(setTextFilter('bill'));
-
-// setTimeout( () => {
-//     store.dispatch(setTextFilter('water'));
-// } , 3000)
 
 const jsx = (
     <Provider store = {store}>          
