@@ -1,6 +1,6 @@
 //Expenses reducer
 const expensesReducerDefaultState = [];
-export default ( state = expensesReducerDefaultState , action) => {
+export default ( state = expensesReducerDefaultState , action) => {     //this fn is returning an array of expenses.
     switch(action.type){
         case 'ADD_EXPENSE' :            
             return [...state, action.expense];       //spread operator(returns a new array)
