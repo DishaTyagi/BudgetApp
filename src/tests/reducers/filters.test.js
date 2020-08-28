@@ -45,10 +45,10 @@ test('set start date filter reducer', () => {
 
     const action = {
         type: 'SET_START_DATE',
-        startDate: moment()
+        startDate: moment(0)
     }
     const state = filtersReducer(undefined, action);
-    expect(state.startDate).toEqual(moment());      //here toEqual is used coz startDate is a moment instance that is object and to compare objects, we use toEquals.
+    expect(state.startDate).toEqual(moment(0));      //here toEqual is used coz startDate is a moment instance that is object and to compare objects, we use toEquals.
 });
 
 //start end date
