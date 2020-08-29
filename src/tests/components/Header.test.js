@@ -4,7 +4,7 @@ import { shallow } from 'enzyme';
 import Header from '../../components/Header';
 
 test('render header component correctly', () => {
-    const wrapper = shallow(<Header />);
+    const wrapper = shallow(<Header />);        //shallow basically is renderer here and it renders header component in js and stores it in wrapper which is then tested for snapshots.
     expect(wrapper).toMatchSnapshot();
 
     // expect(wrapper.find('h1').text()).toBe('expensify');
