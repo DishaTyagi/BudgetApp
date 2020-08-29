@@ -1,9 +1,7 @@
-import React from 'react';
 import moment from 'moment';
-import { shallow } from 'enzyme';
-import {ExpenseList} from '../../components/ExpenseList';
+import React from 'react';
 
-const expenses = [{
+export default [{
     id: '1',
     description: 'copy',
     note: '',
@@ -28,13 +26,3 @@ const expenses = [{
     amount: 900,
     createdAt: moment(0).add(10, 'days').valueOf(),
 }];
-
-test('should render expenseList with expenses' , () => {
-    const wrapper = shallow(<ExpenseList expenses={expenses} />);
-    expect(wrapper).toMatchSnapshot();
-});
-
-test('should render expenseList with empty message', () => {
-    const wrapper = shallow(<ExpenseList expenses={[]} />);
-    expect(wrapper).toMatchSnapshot();
-});

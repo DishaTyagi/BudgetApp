@@ -8,5 +8,4 @@ const ExpenseDashboardPage = () => (
         <ConnectedExpenseList />
     </div>
 );
-//
 export default ExpenseDashboardPage;
