@@ -1,6 +1,5 @@
 import ExpenseListItem from '../../components/ExpenseListItem';
 import {shallow} from 'enzyme';
-import moment from 'moment';
 import React from 'react';
 import expenses from '../fixtures/expenses'
 
