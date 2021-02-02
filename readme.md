@@ -1,0 +1,1 @@
+git log is used to view recent commits.
